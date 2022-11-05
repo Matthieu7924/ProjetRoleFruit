@@ -8,16 +8,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyFruits2.Data;
 using MyFruits2.Models;
+using MyFruits2.Services;
 
 namespace MyFruits2.Areas.Fruits.Pages
 {
     public class EditModel : PageModel
     {
-        private readonly MyFruits2.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext ctx;
+        private readonly ImageService imageService;
 
-        public EditModel(MyFruits2.Data.ApplicationDbContext context)
+        public EditModel(ApplicationDbContext ctx, ImageService imageService)
         {
-            _context = context;
+            this.ctx = ctx;
+            this.imageService = imageService;
         }
 
         [BindProperty]
@@ -25,53 +28,92 @@ namespace MyFruits2.Areas.Fruits.Pages
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Fruits == null)
+            if (id == null || ctx.Fruits == null)
             {
                 return NotFound();
             }
 
-            var fruit =  await _context.Fruits.FirstOrDefaultAsync(m => m.Id == id);
-            if (fruit == null)
+            Fruit = await ctx.Fruits
+                .Include(f => f.Image)
+                .AsNoTracking()//aucun changement ne sera spécifié durant cette requête
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (Fruit == null)
             {
                 return NotFound();
             }
-            Fruit = fruit;
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
+
+            //_context.Attach(Fruit).State = EntityState.Modified;
+
+            var fruitToUpdate = await ctx.Fruits
+                .Include(f => f.Image)
+                .FirstOrDefaultAsync(f => f.Id==id);
+
+            if(fruitToUpdate == null)
             {
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(Fruit).State = EntityState.Modified;
 
-            try
+            var uploadedImage = Fruit.Image;
+
+            if(null!= uploadedImage)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FruitExists(Fruit.Id))
+                uploadedImage = await imageService.UploadAsync(uploadedImage);
+
+                if(fruitToUpdate.Image != null)
                 {
-                    return NotFound();
+                    imageService.DeleteUploadedFile(fruitToUpdate.Image); 
+                    fruitToUpdate.Image.Name = uploadedImage.Name;
+                    fruitToUpdate.Image.Path = uploadedImage.Path;
                 }
                 else
-                {
-                    throw;
-                }
+                    fruitToUpdate.Image = uploadedImage;
+
             }
 
-            return RedirectToPage("./Index");
+
+            if (await TryUpdateModelAsync(fruitToUpdate, "fruit", f => f.Name, f => f.Description, f => f.Price))
+            {
+                await ctx.SaveChangesAsync();
+
+                return RedirectToPage("./Index");
+            }
+
+
+            //try
+            //{
+            //    await ctx.SaveChangesAsync();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!FruitExists(Fruit.Id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
+            return Page();
         }
 
         private bool FruitExists(int id)
         {
-          return _context.Fruits.Any(e => e.Id == id);
+          return ctx.Fruits.Any(e => e.Id == id);
         }
     }
 }

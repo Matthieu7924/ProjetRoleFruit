@@ -31,6 +31,23 @@ public class ImageService
         return image;
     }
 
+    public void DeleteUploadedFile(Image? image)
+    {
+        if(image == null)
+        {
+            return;
+        }
+        var imagePath = pathService.GetUploadsPath(Path.GetFileName(image.Path));
+
+        if (File.Exists(imagePath))
+            File.Delete(imagePath);
+    }
+
+
+
+
+
+
     private string GetRandomFileName(string filename)
     {
         return Guid.NewGuid() + Path.GetExtension(filename);
