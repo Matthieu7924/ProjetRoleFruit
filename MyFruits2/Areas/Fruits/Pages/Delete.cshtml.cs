@@ -80,7 +80,7 @@ namespace MyFruits2.Areas.Fruits.Pages
                 return RedirectToAction("./Delete", new {id, hasErrorMessage=true});
             }
 
-
+            //ok
          
 
         }
