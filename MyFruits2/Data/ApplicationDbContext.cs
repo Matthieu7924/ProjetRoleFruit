@@ -4,7 +4,9 @@ using MyFruits2.Models;
 
 namespace MyFruits2.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    //public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : DbContext
+
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
