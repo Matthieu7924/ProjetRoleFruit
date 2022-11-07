@@ -16,3 +16,16 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+h1{
+    font-size:150px;
+    color:purple;
+    font-weight:bolder;
+    background-color:yellow;
+}
+
+.text-center >div{
+    display:flex;
+    justify-content:space-between;
+    margin:auto;
+}
