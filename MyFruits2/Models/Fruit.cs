@@ -20,7 +20,7 @@ public class Fruit
 
     [Required]
     [Display(Name="Prix")]
-    [Range(1,100)]//le prix doirt se situer entre 1 et 100€
+    [Range(0,100)]//le prix doirt se situer entre 0 et 100€
     [DataType(DataType.Currency)]//pour indiquer qu"on utilise des données monétaires
     [Column(TypeName ="decimal(3,2)")]//prix jusqu'à 3 chiffre (999) et 2 chiffres après la virgules (125.08)
     public decimal Price { get; set; }  =decimal.One;
