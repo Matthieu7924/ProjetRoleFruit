@@ -1,0 +1,46 @@
+﻿@page
+@model MyFruits2.Pages.LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>CONNEXION</h1>
+
+<hr />
+
+
+
+            <form class="form">
+
+                  <div class="form-group">
+                    <label for="InputName">Name</label>
+                    <input type="text" class="form-control" id="InputName" aria-describedby="nameHelp" >
+                    <small id="emailHelp" class="form-text text-muted"></small>
+                </div>
+                <div class="form-group">
+                    <label for="InputEmail1">Email address</label>
+                    <input type="email" class="form-control" id="InputEmail1" aria-describedby="emailHelp" >
+                    <small id="emailHelp" class="form-text text-muted"></small>
+                </div>
+                <div class="form-group">
+                    <label for="InputPassword1">Password</label>
+                    <input type="password" class="form-control" id="InputPassword1">
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a class="btn btn-success" asp-page="Index">Liste d'utilisateurs</a>
+                </div>
+
+            </form>
+
+
+
+
+
+
+
+
+
+
