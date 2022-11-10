@@ -1,0 +1,38 @@
+﻿@page
+@model MyFruits2.Pages.FetchModel
+@{
+    ViewData["Title"] = "Fetch";
+}
+
+<h1>FETCH</h1>
+
+<h2>Utilisateurs de GITHUB</h2>
+
+<input type="text" id="champ" placeholder="User?">
+<button id="btn">Get Info</button>
+
+
+<div id="output">
+</div>
+
+
+
+
+
+<script>
+    btn.onclick = () => {
+        fetch("https://api.github.com/users/" + champ.value)
+            .then(reponse => reponse.json())
+            .then(data => {
+                output.textContent = "";
+                output.textContent = `Compte de ${data.name}`;
+                const img = document.createElement("img");
+                img.src = data.avatar_url;
+                img.width = "100";
+                output.appendChild(img);
+            })
+    }
+
+
+
+</script>

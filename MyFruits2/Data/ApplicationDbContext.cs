@@ -14,6 +14,8 @@ namespace MyFruits2.Data
         }
         public DbSet<MyFruits2.Models.Fruit> Fruits { get; set; }
         public DbSet<MyFruits2.Models.Image> Images { get; set; }
+        public DbSet<MyFruits2.Models.Contact> Contacts { get; set; }
+
 
     }
 }

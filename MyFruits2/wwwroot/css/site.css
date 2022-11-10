@@ -49,3 +49,9 @@ h1{
     display: block;
     justify-content: center;
 }
+
+#output{
+    border:2px solid red;
+    height:15rem;
+    width:15rem;
+}

@@ -1,0 +1,27 @@
+﻿@page
+@model MyFruits2.Areas.Contacts.Pages.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>S'INSCRIRE'</h1>
+
+<h4>Contact</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <partial name="~/Pages/Shared/EditorTemplatesContact/Contact.cshtml" model="@Model.Contact"/>
+            <div class="form-group mt-2">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-success" asp-page="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
