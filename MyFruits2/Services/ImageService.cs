@@ -15,7 +15,6 @@ public class ImageService
     public async Task<Image> UploadAsync(Image image)
     {
         var uploadsPath = pathService.GetUploadsPath();
-
         var imageFile= image.File;
         var imageFileName = GetRandomFileName(imageFile.FileName);
         var imageUploadPath = Path.Combine(uploadsPath, imageFileName);

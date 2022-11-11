@@ -25,8 +25,6 @@
     @if (null != Model.Image)
     {
         <span>(<a target="blank" href="@Url.Content($"~/{Model.Image.Path}")">@Model.Image.Name</a>)</span>
-
-
     }
     
     <input type="file" asp-for="Image.File" class="form-control" />
